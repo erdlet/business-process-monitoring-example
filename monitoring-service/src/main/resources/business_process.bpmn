@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1eh5r1u" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.1">
+  <bpmn:process id="order_process" isExecutable="true">
+    <bpmn:startEvent id="evt_start_order_received" name="Order received">
+      <bpmn:outgoing>SequenceFlow_0wap4xj</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_1r062e4" />
+    </bpmn:startEvent>
+    <bpmn:endEvent id="evt_end_order_payed" name="Order shipped">
+      <bpmn:incoming>SequenceFlow_05md6ei</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0wap4xj" sourceRef="evt_start_order_received" targetRef="tsk_receive_pay_order" />
+    <bpmn:receiveTask id="tsk_receive_pay_order" name="Pay order" messageRef="Message_14ndrys">
+      <bpmn:incoming>SequenceFlow_0wap4xj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07p1z9c</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="SequenceFlow_07p1z9c" sourceRef="tsk_receive_pay_order" targetRef="task_receive_ship_order" />
+    <bpmn:receiveTask id="task_receive_ship_order" name="Ship order" messageRef="Message_1t9ye1p">
+      <bpmn:incoming>SequenceFlow_07p1z9c</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_05md6ei</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="SequenceFlow_05md6ei" sourceRef="task_receive_ship_order" targetRef="evt_end_order_payed" />
+  </bpmn:process>
+  <bpmn:message id="Message_1r062e4" name="ORDER_RECEIVED" />
+  <bpmn:message id="Message_14ndrys" name="ORDER_PAID" />
+  <bpmn:message id="Message_1t9ye1p" name="ORDER_SHIPPED" />
+  <bpmn:message id="Message_1vgt1w8" name="ORDER_CANCELLED" />
+  <bpmn:message id="Message_0j5o5cr" name="Message_0ddgrkj" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="order_process">
+      <bpmndi:BPMNShape id="StartEvent_1o5ktdd_di" bpmnElement="evt_start_order_received">
+        <dc:Bounds x="619" y="285" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="601" y="328" width="73" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0ttloup_di" bpmnElement="evt_end_order_payed">
+        <dc:Bounds x="1003" y="285" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="988" y="328" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0wap4xj_di" bpmnElement="SequenceFlow_0wap4xj">
+        <di:waypoint x="655" y="303" />
+        <di:waypoint x="705" y="303" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_1s8tqvq_di" bpmnElement="tsk_receive_pay_order">
+        <dc:Bounds x="705" y="263" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_07p1z9c_di" bpmnElement="SequenceFlow_07p1z9c">
+        <di:waypoint x="805" y="303" />
+        <di:waypoint x="855" y="303" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_19hdfl7_di" bpmnElement="task_receive_ship_order">
+        <dc:Bounds x="855" y="263" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_05md6ei_di" bpmnElement="SequenceFlow_05md6ei">
+        <di:waypoint x="955" y="303" />
+        <di:waypoint x="1003" y="303" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
