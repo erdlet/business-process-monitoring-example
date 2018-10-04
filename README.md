@@ -6,7 +6,7 @@ execution. These services provide communication via REST for some operations or 
 for inter-service-communication.
 
 ## The business process
-![business process](https://github.com/erdlet/business-process-monitoring-example/business_process.png)
+![business process](https://github.com/erdlet/business-process-monitoring-example/blob/master/business_process.png)
 
 This process describes some really simplified purchase order in an e-commerce system. After an order was created
 by some user in the order-service, it has to be paid before it can be shipped. As soon as the payment was booked in the
@@ -24,7 +24,7 @@ docker-compose up -d
 4) Start the `monitoring-service` via an IDE or as jar if you built it before  
 5) Create an order via `curl -X POST http://localhost:8082/purchase-orders -H 'Content-Type: application/json' -H 'Accept: application/json'`
 6) Now the `monitoring-service` received the message of an newly created order and should look like this at
-the process view: ![process_status](https://github.com/erdlet/business-process-monitoring-example/created_order.png)
+the process view: ![process_status](https://github.com/erdlet/business-process-monitoring-example/blob/master/created_order.png)
 The order number of the created purchaseorder will be the business-key of the new Camunda process instance.
 7) Get the _invoice_number_ of the newly created invoice related to the new order from the `invoice-service` which is logged
 to the console (e.g. 'Saved invoice <__a5903c11-a9fb-4176-aabd-1aa9cb9f2d7c__> for order <d3c479d0-3dec-4381-8152-7213476b4e35>')
