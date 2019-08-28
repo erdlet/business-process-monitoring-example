@@ -21,6 +21,13 @@ public class RabbitReceiverConfiguration implements RabbitListenerConfigurer {
     return new Queue("invoice.purchaseorder.created");
   }
 
+  /* Queue for receiving purchaseorder cancelled messages published from order service */
+
+  @Bean
+  public Queue purchaseOrderCancelledQueue() {
+    return new Queue("invoice.purchaseorder.cancelled");
+  }
+
   /* Exchange, Queues and Bindings for publishing messages for paid purchaseorders */
 
   @Bean

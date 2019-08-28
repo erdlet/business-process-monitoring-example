@@ -2,6 +2,8 @@ package de.erdlet.bpmonitoring.invoiceservice.service;
 
 import de.erdlet.bpmonitoring.invoiceservice.messaging.publisher.InvoicePaidPublisher;
 import de.erdlet.bpmonitoring.invoiceservice.model.Invoice;
+import de.erdlet.bpmonitoring.invoiceservice.model.InvoiceNumber;
+import de.erdlet.bpmonitoring.invoiceservice.model.OrderNumber;
 import de.erdlet.bpmonitoring.invoiceservice.repository.InvoiceRepository;
 import de.erdlet.bpmonitoring.invoiceservice.rest.exception.InvoiceNotFoundException;
 import java.util.UUID;
@@ -27,7 +29,7 @@ public class InvoiceService {
   }
 
   public void createNewInvoiceForOrder(final UUID orderNumber) {
-    final var newInvoice = new Invoice(orderNumber);
+    final var newInvoice = new Invoice(new OrderNumber(orderNumber));
 
     invoiceRepository.save(newInvoice);
 
@@ -36,7 +38,7 @@ public class InvoiceService {
 
   public Invoice payInvoice(final UUID invoiceNumber) {
     final Invoice invoice = invoiceRepository.findInvoiceByInvoiceNumber(invoiceNumber)
-        .orElseThrow(() -> new InvoiceNotFoundException(invoiceNumber));
+        .orElseThrow(() -> new InvoiceNotFoundException(new InvoiceNumber(invoiceNumber)));
 
     invoice.pay();
 
@@ -45,5 +47,16 @@ public class InvoiceService {
     invoicePaidPublisher.publishEvent(paidInvoice);
 
     return paidInvoice;
+  }
+
+  public void cancelInvoiceForOrder(final OrderNumber orderNumber) {
+    final Invoice invoice = invoiceRepository.findInvoiceByOrderNumber(orderNumber)
+        .orElseThrow(() -> new InvoiceNotFoundException(orderNumber));
+
+    invoice.cancel();
+
+    invoiceRepository.save(invoice);
+
+    LOGGER.info("Cancelled invoice <{}> for order <{}>", invoice.getInvoiceNumber(), orderNumber);
   }
 }

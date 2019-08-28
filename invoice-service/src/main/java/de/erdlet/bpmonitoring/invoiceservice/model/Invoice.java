@@ -3,19 +3,20 @@ package de.erdlet.bpmonitoring.invoiceservice.model;
 import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import org.hibernate.annotations.Type;
 
 @Entity
 public class Invoice {
 
   public enum Status {
     NOT_PAID,
+    CANCELLED,
     PAID
   }
 
@@ -24,13 +25,11 @@ public class Invoice {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long databaseId;
 
-  @Column(nullable = false, updatable = false, unique = true)
-  @Type(type = "uuid-char")
-  private UUID invoiceNumber;
+  @Embedded
+  private InvoiceNumber invoiceNumber;
 
-  @Column(nullable = false, updatable = false, unique = true)
-  @Type(type = "uuid-char")
-  private UUID orderNumber;
+  @Embedded
+  private OrderNumber orderNumber;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
@@ -40,18 +39,18 @@ public class Invoice {
     // only for frameworks
   }
 
-  public Invoice(final UUID orderNumber) {
+  public Invoice(final OrderNumber orderNumber) {
     this.orderNumber = orderNumber;
 
-    this.invoiceNumber = UUID.randomUUID();
+    this.invoiceNumber = new InvoiceNumber(UUID.randomUUID());
     this.status = Status.NOT_PAID;
   }
 
-  public UUID getInvoiceNumber() {
+  public InvoiceNumber getInvoiceNumber() {
     return invoiceNumber;
   }
 
-  public UUID getOrderNumber() {
+  public OrderNumber getOrderNumber() {
     return orderNumber;
   }
 
@@ -59,15 +58,19 @@ public class Invoice {
     this.status = Status.PAID;
   }
 
+  public void cancel() {
+    this.status = Status.CANCELLED;
+  }
+
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(final Object o) {
     if (this == o) {
       return true;
     }
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Invoice invoice = (Invoice) o;
+    final Invoice invoice = (Invoice) o;
     return Objects.equals(invoiceNumber, invoice.invoiceNumber);
   }
 

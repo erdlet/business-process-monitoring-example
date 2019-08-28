@@ -1,5 +1,6 @@
 package de.erdlet.bpmonitoring.orderservice.service;
 
+import de.erdlet.bpmonitoring.orderservice.messaging.publisher.PurchaseOrderCancelledPublisher;
 import de.erdlet.bpmonitoring.orderservice.messaging.publisher.PurchaseOrderCreatedPublisher;
 import de.erdlet.bpmonitoring.orderservice.messaging.publisher.PurchaseOrderShippedPublisher;
 import de.erdlet.bpmonitoring.orderservice.model.PurchaseOrder;
@@ -19,15 +20,18 @@ public class PurchaseOrderService {
 
   private final PurchaseOrderCreatedPublisher orderCreatedPublisher;
   private final PurchaseOrderShippedPublisher purchaseOrderShippedPublisher;
+  private final PurchaseOrderCancelledPublisher purchaseOrderCancelledPublisher;
 
   @Autowired
   public PurchaseOrderService(
       final PurchaseOrderRepository purchaseOrderRepository,
       final PurchaseOrderCreatedPublisher orderCreatedPublisher,
-      final PurchaseOrderShippedPublisher purchaseOrderShippedPublisher) {
+      final PurchaseOrderShippedPublisher purchaseOrderShippedPublisher,
+      final PurchaseOrderCancelledPublisher purchaseOrderCancelledPublisher) {
     this.purchaseOrderRepository = purchaseOrderRepository;
     this.orderCreatedPublisher = orderCreatedPublisher;
     this.purchaseOrderShippedPublisher = purchaseOrderShippedPublisher;
+    this.purchaseOrderCancelledPublisher = purchaseOrderCancelledPublisher;
   }
 
   public PurchaseOrder createNewPurchaseOrder() {
@@ -48,6 +52,8 @@ public class PurchaseOrderService {
     purchaseOrderToCancel.cancel();
 
     purchaseOrderRepository.save(purchaseOrderToCancel);
+
+    purchaseOrderCancelledPublisher.publishEvent(purchaseOrderToCancel);
   }
 
   public void shipPurchaseOrder(final UUID orderNumber) {

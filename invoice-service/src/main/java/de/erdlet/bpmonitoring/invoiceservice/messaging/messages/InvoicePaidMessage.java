@@ -17,8 +17,8 @@ public class InvoicePaidMessage {
   }
 
   public InvoicePaidMessage(final Invoice invoice) {
-    this.orderNumber = invoice.getOrderNumber();
-    this.invoiceNumber = invoice.getInvoiceNumber();
+    this.orderNumber = invoice.getOrderNumber().getNumber();
+    this.invoiceNumber = invoice.getInvoiceNumber().getNumber();
   }
 
   public UUID getOrderNumber() {

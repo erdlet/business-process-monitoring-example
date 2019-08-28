@@ -37,6 +37,33 @@ public class RabbitPublishingConfiguration {
     return BindingBuilder.bind(invoicePurchaseOrderCreatedQueue()).to(purchaseOrderCreatedExchange());
   }
 
+  /* Exchange, Queues and Bindings for publishing cancelled purchase order events. */
+
+  @Bean
+  public FanoutExchange purchaseOrderCancelledExchange() {
+    return new FanoutExchange("purchaseorder.cancelled");
+  }
+
+  @Bean
+  public Queue monitoringPurchaseOrderCancelledQueue() {
+    return new Queue("monitoring.purchaseorder.cancelled");
+  }
+
+  @Bean
+  public Binding monitoringPurchaseOrderCancelledBinding() {
+    return BindingBuilder.bind(monitoringPurchaseOrderCancelledQueue()).to(purchaseOrderCancelledExchange());
+  }
+
+  @Bean
+  public Queue invoicePurchaseOrderCancelledQueue() {
+    return new Queue("invoice.purchaseorder.cancelled");
+  }
+
+  @Bean
+  public Binding invoicePurchaseOrderCancelledBinding() {
+    return BindingBuilder.bind(invoicePurchaseOrderCancelledQueue()).to(purchaseOrderCancelledExchange());
+  }
+
   /* Exchange, Queues and Bindings for publishing shipped purchase order events. */
 
   @Bean
