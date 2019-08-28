@@ -40,6 +40,16 @@ public class PurchaseOrderService {
     return createdPurchaseOrder;
   }
 
+  public void cancelOrder(final UUID orderNumer) {
+    final var optionalPurchaseOrder = purchaseOrderRepository.findByOrderNumber(orderNumer);
+
+    final var purchaseOrderToCancel = optionalPurchaseOrder.orElseThrow(() -> new PurchaseOrderNotFoundException(orderNumer));
+
+    purchaseOrderToCancel.cancel();
+
+    purchaseOrderRepository.save(purchaseOrderToCancel);
+  }
+
   public void shipPurchaseOrder(final UUID orderNumber) {
     final var purchaseOrder = purchaseOrderRepository.findByOrderNumber(orderNumber)
         .orElseThrow(() -> new PurchaseOrderNotFoundException(orderNumber));

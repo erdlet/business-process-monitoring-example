@@ -25,6 +25,7 @@ public class PurchaseOrder {
 
   public enum Status {
     OPEN,
+    CANCELLED,
     SHIPPED
   }
 
@@ -51,6 +52,10 @@ public class PurchaseOrder {
 
   public void shipToCustomer() {
     this.status = Status.SHIPPED;
+  }
+
+  public void cancel() {
+    this.status = Status.CANCELLED;
   }
 
   @Override
