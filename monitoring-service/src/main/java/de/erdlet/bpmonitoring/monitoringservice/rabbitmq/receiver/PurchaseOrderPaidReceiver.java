@@ -25,6 +25,7 @@ public class PurchaseOrderPaidReceiver {
   public void receivePurchaseOrderPaidEvent(final PurchaseOrderPaidMessage message) {
     try {
       runtimeService.correlateMessage(WorkflowMessages.ORDER_PAID, message.orderNumber.toString());
+      LOGGER.info("Received purchase order paid <{}>", message.orderNumber);
     } catch (final Exception ex) {
       LOGGER.error("Could not process paid order <{}>", message.orderNumber, ex);
     }

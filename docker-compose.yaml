@@ -3,6 +3,40 @@ version: '3'
 services:
   rabbitmq:
     image: rabbitmq:3-management
+    restart: on-failure
     ports:
       - 5672:5672
       - 15672:15672
+
+  invoices-db:
+    image: mariadb
+    restart: on-failure
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: invoices
+      MYSQL_USER: invoices
+      MYSQL_PASSWORD: invoicesPw
+    ports:
+      - 13306:3306
+
+  monitoring-db:
+    image: mariadb
+    restart: on-failure
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: monitoring
+      MYSQL_USER: monitoring
+      MYSQL_PASSWORD: monitoringPw
+    ports:
+      - 23306:3306
+
+  orders-db:
+    image: mariadb
+    restart: on-failure
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: orders
+      MYSQL_USER: orders
+      MYSQL_PASSWORD: ordersPw
+    ports:
+      - 33306:3306

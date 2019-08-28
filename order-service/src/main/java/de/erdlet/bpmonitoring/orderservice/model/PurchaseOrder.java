@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Type;
 
 @Entity
 public class PurchaseOrder {
@@ -33,6 +34,7 @@ public class PurchaseOrder {
   private Long databaseId;
 
   @NotNull
+  @Type(type = "uuid-char")
   private UUID orderNumber;
 
   @Column(nullable = false)

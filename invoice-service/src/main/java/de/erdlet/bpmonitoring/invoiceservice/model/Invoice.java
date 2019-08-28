@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.hibernate.annotations.Type;
 
 @Entity
 public class Invoice {
@@ -24,9 +25,11 @@ public class Invoice {
   private Long databaseId;
 
   @Column(nullable = false, updatable = false, unique = true)
+  @Type(type = "uuid-char")
   private UUID invoiceNumber;
 
   @Column(nullable = false, updatable = false, unique = true)
+  @Type(type = "uuid-char")
   private UUID orderNumber;
 
   @Column(nullable = false)

@@ -7,6 +7,6 @@ spring:
       ddl-auto: create-drop
     open-in-view: false
   datasource:
-    username: sa
-    password:
-    url: jdbc:h2:mem:order-service
+    username: orders
+    password: ordersPw
+    url: jdbc:mariadb://localhost:33306/orders

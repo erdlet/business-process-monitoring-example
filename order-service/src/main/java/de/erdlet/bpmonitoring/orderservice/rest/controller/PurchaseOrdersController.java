@@ -19,7 +19,7 @@ public class PurchaseOrdersController {
   private final PurchaseOrderService purchaseOrderService;
 
   @Autowired
-  public PurchaseOrdersController(PurchaseOrderService purchaseOrderService) {
+  public PurchaseOrdersController(final PurchaseOrderService purchaseOrderService) {
     this.purchaseOrderService = purchaseOrderService;
   }
 
@@ -34,7 +34,7 @@ public class PurchaseOrdersController {
         .body(createdPurchaseOrder);
   }
 
-  private URI formatGetOrderByOrderNumberURI(UUID orderNumber) {
+  private static URI formatGetOrderByOrderNumberURI(final UUID orderNumber) {
     return UriComponentsBuilder.fromHttpUrl("http://localhost:8082").pathSegment("purchase-orders")
         .pathSegment(orderNumber.toString()).build().toUri();
   }

@@ -6,6 +6,7 @@ import de.erdlet.bpmonitoring.orderservice.model.PurchaseOrder;
 import de.erdlet.bpmonitoring.orderservice.repository.PurchaseOrderRepository;
 import de.erdlet.bpmonitoring.orderservice.rest.exceptions.PurchaseOrderNotFoundException;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +47,14 @@ public class PurchaseOrderService {
     purchaseOrder.shipToCustomer();
 
     final var savedPurchaseOrder = purchaseOrderRepository.save(purchaseOrder);
+
+    //The order needs some time to be shipped. Lets simulate
+    //different 3rd party system calls with this sleep.
+    try {
+      TimeUnit.SECONDS.sleep(5);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
 
     purchaseOrderShippedPublisher.publishEvent(savedPurchaseOrder);
   }
