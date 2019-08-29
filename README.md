@@ -35,7 +35,7 @@ create their RabbitMQ exchanges, queues and bindings.
 1) Create an order via `curl -X POST http://localhost:8082/purchase-orders -H 'Content-Type: application/json' -H 'Accept: application/json'`
 2) Now the `monitoring-service` received the message of an newly created order and should look like this at
 the process view:  
-![process_status](https://github.com/erdlet/business-process-monitoring-example/blob/master/created_order.png)
+![process_status](https://github.com/erdlet/business-process-monitoring-example/blob/master/created_order.png)  
 The order number of the created purchaseorder will be the business-key of the new Camunda process instance.
 3) Get the _invoice_number_ of the newly created invoice related to the new order from the `invoice-service` which is logged to the console (e.g. 'Saved invoice <__a5903c11-a9fb-4176-aabd-1aa9cb9f2d7c__> for order <d3c479d0-3dec-4381-8152-7213476b4e35>')
 4) Pay the invoice via this call to the `invoice-service`, where _invoice_number_ is the copied number from above:
@@ -48,7 +48,7 @@ that the state is `COMPLETED`
  1) Create an order via `curl -X POST http://localhost:8082/purchase-orders -H 'Content-Type: application/json' -H 'Accept: application/json'`
  2) Now the `monitoring-service` received the message of an newly created order and should look like this at
  the process view:  
- ![process_status](https://github.com/erdlet/business-process-monitoring-example/blob/master/created_order.png)
+ ![process_status](https://github.com/erdlet/business-process-monitoring-example/blob/master/created_order.png)  
  The order number of the created purchaseorder will be the business-key of the new Camunda process instance.
  3) Take the order number from the response body of the above service call or the Camunda process business key and call
  `curl -X DELETE http://localhost:8082/purchase-orders/{orderNumber} -H 'Content-Type: application/json' -H 'Accept: application/json'` 
