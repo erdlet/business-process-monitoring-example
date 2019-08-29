@@ -41,7 +41,7 @@ public class InvoiceService {
   }
 
   public Invoice payInvoice(final UUID invoiceNumber) {
-    final Invoice invoice = invoiceRepository.findInvoiceByInvoiceNumber(invoiceNumber)
+    final Invoice invoice = invoiceRepository.findInvoiceByInvoiceNumber(new InvoiceNumber(invoiceNumber))
         .orElseThrow(() -> new InvoiceNotFoundException(new InvoiceNumber(invoiceNumber)));
 
     invoice.pay();
