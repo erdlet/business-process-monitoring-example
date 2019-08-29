@@ -28,33 +28,6 @@ public class RabbitReceiverConfiguration implements RabbitListenerConfigurer {
     return new Queue("invoice.purchaseorder.cancelled");
   }
 
-  /* Exchange, Queues and Bindings for publishing messages for paid purchaseorders */
-
-  @Bean
-  public FanoutExchange purchaseOrderPaidExchange() {
-    return new FanoutExchange("purchaseorder.paid");
-  }
-
-  @Bean
-  public Queue monitoringPurchaseOrderPaidQueue() {
-    return new Queue("monitoring.purchaseorder.paid");
-  }
-
-  @Bean
-  public Binding monitoringPurchaseOrderPaidBinding() {
-    return BindingBuilder.bind(monitoringPurchaseOrderPaidQueue()).to(purchaseOrderPaidExchange());
-  }
-
-  @Bean
-  public Queue orderPurchaseOrderPaidQueue() {
-    return new Queue("order.purchaseorder.paid");
-  }
-
-  @Bean
-  public Binding orderPurchaseOrderPaidBinding() {
-    return BindingBuilder.bind(orderPurchaseOrderPaidQueue()).to(purchaseOrderPaidExchange());
-  }
-
   /* General settings for RabbitMQ / RabbitTemplate */
 
   @Bean

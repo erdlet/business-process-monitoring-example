@@ -19,12 +19,31 @@
       <bpmn:outgoing>SequenceFlow_05md6ei</bpmn:outgoing>
     </bpmn:receiveTask>
     <bpmn:sequenceFlow id="SequenceFlow_05md6ei" sourceRef="tsk_receive_ship_order" targetRef="evt_end_order_shipped" />
+    <bpmn:boundaryEvent id="BoundaryEvent_1rw29nf" attachedToRef="tsk_receive_pay_order">
+      <bpmn:outgoing>SequenceFlow_0daxzk7</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_1vgt1w8" />
+    </bpmn:boundaryEvent>
+    <bpmn:task id="Task_1ancqs8" name="Cancel order">
+      <bpmn:incoming>SequenceFlow_0daxzk7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_02mtuat</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="SequenceFlow_0daxzk7" sourceRef="BoundaryEvent_1rw29nf" targetRef="Task_1ancqs8" />
+    <bpmn:sequenceFlow id="SequenceFlow_02mtuat" sourceRef="Task_1ancqs8" targetRef="Task_1s6c2dj" />
+    <bpmn:endEvent id="EndEvent_1c7fcoq" name="Order cancelled">
+      <bpmn:incoming>SequenceFlow_0g5rk2l</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0g5rk2l" sourceRef="Task_1s6c2dj" targetRef="EndEvent_1c7fcoq" />
+    <bpmn:receiveTask id="Task_1s6c2dj" name="Cancel invoice" messageRef="Message_039au4p">
+      <bpmn:incoming>SequenceFlow_02mtuat</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0g5rk2l</bpmn:outgoing>
+    </bpmn:receiveTask>
   </bpmn:process>
   <bpmn:message id="Message_1r062e4" name="ORDER_RECEIVED" />
   <bpmn:message id="Message_14ndrys" name="ORDER_PAID" />
   <bpmn:message id="Message_1t9ye1p" name="ORDER_SHIPPED" />
   <bpmn:message id="Message_1vgt1w8" name="ORDER_CANCELLED" />
   <bpmn:message id="Message_0j5o5cr" name="Message_0ddgrkj" />
+  <bpmn:message id="Message_039au4p" name="INVOICE_CANCELLED" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="order_process">
       <bpmndi:BPMNShape id="StartEvent_1o5ktdd_di" bpmnElement="evt_start_order_received">
@@ -34,9 +53,9 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0ttloup_di" bpmnElement="evt_end_order_shipped">
-        <dc:Bounds x="563" y="105" width="36" height="36" />
+        <dc:Bounds x="762" y="105" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="548" y="148" width="70" height="14" />
+          <dc:Bounds x="747" y="148" width="70" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0wap4xj_di" bpmnElement="SequenceFlow_0wap4xj">
@@ -55,8 +74,36 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_05md6ei_di" bpmnElement="SequenceFlow_05md6ei">
         <di:waypoint x="515" y="123" />
-        <di:waypoint x="563" y="123" />
+        <di:waypoint x="762" y="123" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_13wkmbz_di" bpmnElement="BoundaryEvent_1rw29nf">
+        <dc:Bounds x="322" y="145" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_1ancqs8_di" bpmnElement="Task_1ancqs8">
+        <dc:Bounds x="410" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0daxzk7_di" bpmnElement="SequenceFlow_0daxzk7">
+        <di:waypoint x="340" y="181" />
+        <di:waypoint x="340" y="250" />
+        <di:waypoint x="410" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_02mtuat_di" bpmnElement="SequenceFlow_02mtuat">
+        <di:waypoint x="510" y="250" />
+        <di:waypoint x="570" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1c7fcoq_di" bpmnElement="EndEvent_1c7fcoq">
+        <dc:Bounds x="762" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="741" y="275" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0g5rk2l_di" bpmnElement="SequenceFlow_0g5rk2l">
+        <di:waypoint x="670" y="250" />
+        <di:waypoint x="762" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_0yqc4n1_di" bpmnElement="Task_1s6c2dj">
+        <dc:Bounds x="570" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

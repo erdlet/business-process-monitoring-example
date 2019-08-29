@@ -27,6 +27,16 @@ public class ListenerConfig implements RabbitListenerConfigurer {
   }
 
   @Bean
+  public Queue purchaseOrderCancelledQueue() {
+    return new Queue("monitoring.purchaseorder.cancelled");
+  }
+
+  @Bean
+  public Queue invoiceCancelledQueue() {
+    return new Queue("monitoring.invoice.cancelled");
+  }
+
+  @Bean
   public MappingJackson2MessageConverter consumerJackson2MessageConverter() {
     return new MappingJackson2MessageConverter();
   }

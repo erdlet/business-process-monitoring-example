@@ -1,5 +1,6 @@
 package de.erdlet.bpmonitoring.invoiceservice.service;
 
+import de.erdlet.bpmonitoring.invoiceservice.messaging.publisher.InvoiceCancelledPublisher;
 import de.erdlet.bpmonitoring.invoiceservice.messaging.publisher.InvoicePaidPublisher;
 import de.erdlet.bpmonitoring.invoiceservice.model.Invoice;
 import de.erdlet.bpmonitoring.invoiceservice.model.InvoiceNumber;
@@ -21,11 +22,14 @@ public class InvoiceService {
 
   private final InvoiceRepository invoiceRepository;
   private final InvoicePaidPublisher invoicePaidPublisher;
+  private final InvoiceCancelledPublisher invoiceCancelledPublisher;
 
   @Autowired
-  public InvoiceService(final InvoiceRepository invoiceRepository, final InvoicePaidPublisher invoicePaidPublisher) {
+  public InvoiceService(final InvoiceRepository invoiceRepository, final InvoicePaidPublisher invoicePaidPublisher,
+      final InvoiceCancelledPublisher invoiceCancelledPublisher) {
     this.invoiceRepository = invoiceRepository;
     this.invoicePaidPublisher = invoicePaidPublisher;
+    this.invoiceCancelledPublisher = invoiceCancelledPublisher;
   }
 
   public void createNewInvoiceForOrder(final UUID orderNumber) {
@@ -58,5 +62,7 @@ public class InvoiceService {
     invoiceRepository.save(invoice);
 
     LOGGER.info("Cancelled invoice <{}> for order <{}>", invoice.getInvoiceNumber(), orderNumber);
+
+    invoiceCancelledPublisher.publishEvent(invoice);
   }
 }
